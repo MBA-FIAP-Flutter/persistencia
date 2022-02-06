@@ -1,10 +1,16 @@
+import 'package:aula2_persistencia/firebase/list_car.dart';
 import 'package:aula2_persistencia/home.dart';
+import 'package:aula2_persistencia/nosql/list_books.dart';
 import 'package:aula2_persistencia/sqlite/list_person.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -22,8 +28,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => Home(),
         '/sqlite': (context) => ListPerson(),
-        '/nosql': (context) => Container(),
-        '/firebase': (context) => Container(),
+        '/nosql': (context) => ListBooks(),
+        '/firebase': (context) => ListCars(),
       },
     );
   }

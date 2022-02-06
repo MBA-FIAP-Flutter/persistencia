@@ -1,3 +1,4 @@
+import 'package:aula2_persistencia/sqlite/add_person.dart';
 import 'package:aula2_persistencia/sqlite/model/person.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -25,7 +26,7 @@ class _ListPersonState extends State<ListPerson> {
         onCreate: (db, version)
         {
           return db.execute(
-            "CREATE TABLE person(id INTEGER PRIMARY KEY, firstName TEXT, lastName TEXT, address TEXT)",
+            "CREATE TABLE person(id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, address TEXT)",
           );
         },
         version: 1
@@ -43,14 +44,27 @@ class _ListPersonState extends State<ListPerson> {
 
     personsList = List.generate(maps.length, (i) {
       return Person(
-        maps[i]['id'],
         maps[i]['firstName'],
         maps[i]['lastName'],
         maps[i]['address'],
+        id: maps[i]['id']
       );
     });
 
     setState(() {});
+  }
+
+  insertPerson(Person person) {
+    _database?.insert(
+      'person',
+      person.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    ).then((value) {
+      person.id = value;
+      setState(() {
+        personsList.add(person);
+      });
+    });
   }
 
   @override
@@ -61,7 +75,18 @@ class _ListPersonState extends State<ListPerson> {
         actions: <Widget>[
           if (_database != null) IconButton(
             icon: Icon(Icons.add),
-            onPressed: (){ },
+            onPressed: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddPerson()
+                  )
+              ).then((newPerson) {
+                if (newPerson != null){
+                  insertPerson(newPerson);
+                }
+              });
+            },
           )
         ],
       ),
@@ -87,10 +112,24 @@ class _ListPersonState extends State<ListPerson> {
           leading: Text("${personsList[index].id}"),
           title: Text(personsList[index].firstName),
           subtitle: Text("${personsList[index].lastName}, ${personsList[index].address}"),
-          onLongPress: (){ },
+          onLongPress: (){
+            deletePerson(index);
+          },
         ),
       ),
     );
+  }
+
+  deletePerson(int index) {
+    _database?.delete(
+      'person',//table
+      where: "id = ?",//clausura - sql injection
+      whereArgs: [personsList[index].id],//argumentos da clausula
+    ).then((value) {
+      setState(() {
+        personsList.removeAt(index);
+      });
+    });
   }
 
 

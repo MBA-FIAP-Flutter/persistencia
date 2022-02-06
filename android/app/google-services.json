@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "177031064780",
+    "project_id": "fiappersistencia",
+    "storage_bucket": "fiappersistencia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177031064780:android:a1b3b5301c6b768ec3a669",
+        "android_client_info": {
+          "package_name": "com.example.aula2_persistencia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177031064780-diqu88ugi6sskvqj3j8ahab1ujlahtqa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHohHOjUylHZDoPeCrmULnZwZPdl-pQMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177031064780-diqu88ugi6sskvqj3j8ahab1ujlahtqa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
